@@ -4,7 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.launch.JobLauncher;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/batch")
@@ -18,7 +21,7 @@ public class BatchController {
     @PostMapping("/run/{jobName}")
     public String run(@PathVariable String jobName) throws Exception {
         Job job;
-        switch (jobName.toLowerCase()
+        switch (jobName) {
             case "jobA":
                 job = jobA;
                 break;
