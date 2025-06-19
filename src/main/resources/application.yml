@@ -1,0 +1,12 @@
+db:
+  main:
+    url: jdbc:sqlserver://localhost:1433;databaseName=test_main
+    user: test
+    pass: test
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  sub:
+    url: jdbc:sqlserver://localhost:1433;databaseName=test_sub
+    user: test_sub
+    pass: test_sub
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+mail:
