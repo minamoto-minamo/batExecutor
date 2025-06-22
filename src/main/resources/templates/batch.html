@@ -1,68 +1,68 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
 
 <head>
-	<meta charset="UTF-8">
-	<title th:text="${title}">バッチ管理画面</title>
-	<link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}" />
-	<link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap-icons.min.css}" />
-	<link rel="stylesheet" th:href="@{/css/style.css(v=${jsVersion})}" />
+    <meta charset="UTF-8">
+    <title th:text="${title}">バッチ管理画面</title>
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap-icons.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/style.css(v=${jsVersion})}"/>
 </head>
 
 <body>
-	<div class="container mt-4">
-		<div class="d-flex align-items-center mb-3">
-			<h1 class="me-2 mb-0" th:text="${title}">バッチ管理画面</h1>
-			<button id="reload-btn" class="btn btn-outline-primary btn-sm">
-				<i class="bi bi-arrow-clockwise"></i>
-			</button>
-		</div>
+<div class="container mt-4">
+    <div class="d-flex align-items-center mb-3">
+        <h1 class="me-2 mb-0" th:text="${title}">バッチ管理画面</h1>
+        <button id="reload-btn" class="btn btn-outline-primary btn-sm">
+            <i class="bi bi-arrow-clockwise"></i>
+        </button>
+    </div>
 
 
-		<table class="table table-bordered" id="job-table">
-			<colgroup>
-				<col style="width: 20%;">
-				<col style="width: 10%;">
-				<col style="width: 30%;">
-				<col style="width: 15%;">
-				<col style="width: 15%;">
-				<col style="width: 10%;">
-			</colgroup>
-			<thead>
-				<tr>
-					<th>ジョブ名</th>
-					<th>ステータス</th>
-					<th>実行中Step</th>
-					<th>開始時刻</th>
-					<th>終了時刻</th>
-					<th>操作</th>
-				</tr>
-			</thead>
-			<tbody id="job-table-body">
-				<!-- データ行がここに入る -->
-			</tbody>
-		</table>
-	</div>
+    <table class="table table-bordered" id="job-table">
+        <colgroup>
+            <col style="width: 20%;">
+            <col style="width: 10%;">
+            <col style="width: 30%;">
+            <col style="width: 15%;">
+            <col style="width: 15%;">
+            <col style="width: 10%;">
+        </colgroup>
+        <thead>
+        <tr>
+            <th>ジョブ名</th>
+            <th>ステータス</th>
+            <th>実行中Step</th>
+            <th>開始時刻</th>
+            <th>終了時刻</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody id="job-table-body">
+        <!-- データ行がここに入る -->
+        </tbody>
+    </table>
+</div>
 
-	<!-- 確認モーダル -->
-	<div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title">確認</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
-				</div>
-				<div class="modal-body" id="confirmModalMessage">実行してもよろしいですか？</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-					<button type="button" class="btn btn-primary" id="confirmModalOkBtn">OK</button>
-				</div>
-			</div>
-		</div>
-	</div>
+<!-- 確認モーダル -->
+<div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">確認</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
+            </div>
+            <div class="modal-body" id="confirmModalMessage">実行してもよろしいですか？</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+                <button type="button" class="btn btn-primary" id="confirmModalOkBtn">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-	<script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
-	<script th:src="@{/js/app.js(v=${jsVersion})}"></script>
+<script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/app.js(v=${jsVersion})}"></script>
 </body>
 
 </html>

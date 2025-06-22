@@ -14,25 +14,25 @@ import java.util.Collection;
 @Component
 public class JobExecutionRecovery implements ApplicationListener<ApplicationReadyEvent> {
 
-    private final JobExplorer jobExplorer;
-    private final JobRepository jobRepository;
+	private final JobExplorer jobExplorer;
+	private final JobRepository jobRepository;
 
-    public JobExecutionRecovery(JobExplorer jobExplorer, JobRepository jobRepository) {
-        this.jobExplorer = jobExplorer;
-        this.jobRepository = jobRepository;
-    }
+	public JobExecutionRecovery(JobExplorer jobExplorer, JobRepository jobRepository) {
+		this.jobExplorer = jobExplorer;
+		this.jobRepository = jobRepository;
+	}
 
-    @Override
-    public void onApplicationEvent(ApplicationReadyEvent event) {
-        for (String jobName : jobExplorer.getJobNames()) {
-            Collection<JobExecution> executions = jobExplorer.findRunningJobExecutions(jobName);
-            for (JobExecution execution : executions) {
-                execution.setStatus(BatchStatus.FAILED);
-                execution.setEndTime(LocalDateTime.now());
-                jobRepository.update(execution);
-                System.out.println("未終了ジョブ [" + jobName + "] (ID: " + execution.getId() + ") をFAILEDにしました");
-            }
-        }
-    }
+	@Override
+	public void onApplicationEvent(ApplicationReadyEvent event) {
+		for (String jobName : jobExplorer.getJobNames()) {
+			Collection<JobExecution> executions = jobExplorer.findRunningJobExecutions(jobName);
+			for (JobExecution execution : executions) {
+				execution.setStatus(BatchStatus.FAILED);
+				execution.setEndTime(LocalDateTime.now());
+				jobRepository.update(execution);
+				System.out.println("未終了ジョブ [" + jobName + "] (ID: " + execution.getId() + ") をFAILEDにしました");
+			}
+		}
+	}
 }
 

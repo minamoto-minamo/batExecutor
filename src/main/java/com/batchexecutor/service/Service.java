@@ -1,7 +1,5 @@
 package com.batchexecutor.service;
 
-import java.sql.Connection;
-
 public interface Service {
-    void exec() throws Exception;
+	void exec() throws Exception;
 }

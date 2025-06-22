@@ -38,13 +38,13 @@ public class JobMonitorService {
 			boolean registered = jobRegistry.getJobNames().contains(jobName);
 
 			if (!registered) {
-				results.add(new JobStatusDto(jobName, "DELETED", null, null, null,false, false, false));
+				results.add(new JobStatusDto(jobName, "DELETED", null, null, null, false, false, false));
 				continue;
 			}
 
 			List<JobInstance> instances = jobExplorer.getJobInstances(jobName, 0, 1);
 			if (instances.isEmpty()) {
-				results.add(new JobStatusDto(jobName, "NEVER", null, null, null,true, false, true));
+				results.add(new JobStatusDto(jobName, "NEVER", null, null, null, true, false, true));
 				continue;
 			}
 
@@ -85,7 +85,7 @@ public class JobMonitorService {
 	}
 
 	public boolean deleteExecLogs() {
-		try (Connection conn = ConnectionHelper.getConnection(true)){
+		try (Connection conn = ConnectionHelper.getConnection(true)) {
 			JobMonitorDao.deleteLogs(conn);
 			return true;
 		} catch (Exception e) {

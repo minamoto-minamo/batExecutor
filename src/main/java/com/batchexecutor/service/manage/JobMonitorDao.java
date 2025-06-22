@@ -7,7 +7,6 @@ import java.sql.Statement;
 public class JobMonitorDao {
 
 
-
 	public static void deleteLogs(Connection conn) throws SQLException {
 		Statement stmt = conn.createStatement();
 		String sql = """
