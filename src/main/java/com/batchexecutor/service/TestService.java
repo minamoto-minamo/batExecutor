@@ -9,6 +9,7 @@ public class TestService extends AbstractService {
 	@Override
 	public void exec() throws Exception {
 		try {
+			System.out.println("test Job");
 		} catch (Exception e) {
 			throw e;
 		}
