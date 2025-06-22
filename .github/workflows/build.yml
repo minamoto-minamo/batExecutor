@@ -23,8 +23,9 @@ jobs:
         run: mvn clean package -DskipTests
 
       - name: Create custom JRE with jlink
+        shell: cmd
         run: >
-          jlink --output dist/my-runtime
+          jlink --output dist\my-runtime
                 --add-modules java.base,java.desktop,java.sql,java.naming,java.xml,java.logging,java.instrument,jdk.unsupported
                 --compress=2
                 --no-header-files
