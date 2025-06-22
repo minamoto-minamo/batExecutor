@@ -2,7 +2,11 @@ package com.batchexecutor.config.batch;
 
 import com.batchexecutor.config.base.AbstractJobConfig;
 import com.batchexecutor.config.base.RetryableTasklet;
+import com.batchexecutor.enumeration.BatchResult;
+import com.batchexecutor.enumeration.BatchStatus;
 import com.batchexecutor.exception.NotReadyToExecuteException;
+import com.batchexecutor.logging.Loggable;
+import com.batchexecutor.service.TestService;
 import com.batchexecutor.util.ConnectionHelper;
 import com.batchexecutor.util.YamlConfigStore;
 import org.springframework.batch.core.Job;
@@ -10,6 +14,7 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.repeat.RepeatStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -22,9 +27,16 @@ import static com.batchexecutor.util.BatchNameUtil.createClassAndMethod;
 import static com.batchexecutor.util.BatchNameUtil.inferJobName;
 
 @Configuration
-public class CustomerConfig extends AbstractJobConfig {
+public class CustomerConfig extends AbstractJobConfig implements Loggable {
 	//クラス名のConfig以前部分を必ず指定すること。
 	public static final String BATCH_NAME = "Customer";
+
+
+	private final TestService testService;
+	@Autowired
+	public CustomerConfig(TestService testService) {
+		this.testService = testService;
+	}
 
 
 	@Bean(name = BATCH_NAME)
@@ -41,18 +53,18 @@ public class CustomerConfig extends AbstractJobConfig {
 		return buildRetryableStep(createClassAndMethod(this.getClass()), new RetryableTasklet() {
 			@Override
 			protected RepeatStatus runWithRetry(StepContribution contribution, ChunkContext chunkContext) throws InterruptedException {
-				try (Connection conn = ConnectionHelper.getConnection(false)){
+				try (Connection conn = ConnectionHelper.getConnection(false)) {
 					for (int i = 0; i < 10; i++) {
 						System.out.println("処理中..." + i);
 						Thread.sleep(1000);
 					}
 
 					Map<String, Object> customerConfig = YamlConfigStore.getInstance().getConfig("table/customer");
-					String TableName =  (String) customerConfig.get("table");
+					String TableName = (String) customerConfig.get("table");
 					Map<String, Object> batConfig = YamlConfigStore.getInstance().getConfig("bat/customer");
-					String csvFilePath =  (String) batConfig.get("path");
+					String csvFilePath = (String) batConfig.get("path");
 
-					if(!Files.exists(Path.of(csvFilePath))){
+					if (!Files.exists(Path.of(csvFilePath))) {
 						throw new NotReadyToExecuteException();
 					}
 
@@ -60,9 +72,9 @@ public class CustomerConfig extends AbstractJobConfig {
 
 
 				} catch (InterruptedException e) {
-					e.printStackTrace();
+					logError(e);
 					throw e;
-				}catch (NotReadyToExecuteException e){
+				} catch (NotReadyToExecuteException e) {
 					throw e;
 				} catch (Exception e) {
 					throw new RuntimeException(e);
@@ -77,6 +89,11 @@ public class CustomerConfig extends AbstractJobConfig {
 		return buildRetryableStep(createClassAndMethod(this.getClass()), new RetryableTasklet() {
 			@Override
 			protected RepeatStatus runWithRetry(StepContribution contribution, ChunkContext chunkContext) {
+				BatchResult res = testService.start();
+
+				if(res == BatchResult.SUCCESS){
+					System.out.println(BatchStatus.DONE.message());
+				}
 
 				return RepeatStatus.FINISHED;
 			}

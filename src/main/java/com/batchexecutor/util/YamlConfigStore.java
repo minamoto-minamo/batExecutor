@@ -14,7 +14,8 @@ public class YamlConfigStore {
 
 	private final Map<String, Map<String, Object>> cache = new ConcurrentHashMap<>();
 
-	private YamlConfigStore() {}
+	private YamlConfigStore() {
+	}
 
 	public static YamlConfigStore getInstance() {
 		return Holder.INSTANCE;

@@ -6,15 +6,15 @@ import com.batchexecutor.logging.Loggable;
 
 abstract class AbstractService implements Loggable, Service {
 
-    public BatchResult start() {
-        try {
+	public BatchResult start() {
+		try {
 
-            exec();
-            return BatchResult.SUCCESS;
-        } catch (NotReadyToExecuteException e) {
-            return BatchResult.WAIT;
-        } catch (Exception e) {
-            return BatchResult.ERROR;
-        }
-    }
+			exec();
+			return BatchResult.SUCCESS;
+		} catch (NotReadyToExecuteException e) {
+			return BatchResult.WAIT;
+		} catch (Exception e) {
+			return BatchResult.ERROR;
+		}
+	}
 }
