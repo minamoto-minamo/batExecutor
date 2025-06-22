@@ -1,6 +1,6 @@
 package com.batchexecutor.exception;
 
-import com.batchexecutor.enumeration.bat.WaitType;
+import com.batchexecutor.enumeration.WaitType;
 
 public class NotReadyToExecuteException extends RuntimeException {
     public NotReadyToExecuteException() {

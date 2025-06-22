@@ -1,4 +1,4 @@
-package com.batchexecutor.enumeration.bat;
+package com.batchexecutor.enumeration;
 
 public enum WaitType {
     NO_FILE("ファイル未達"),

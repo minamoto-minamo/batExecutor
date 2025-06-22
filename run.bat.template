@@ -1,0 +1,2 @@
+﻿@echo off
+my-runtime\bin\java -jar batExecutor.jar
