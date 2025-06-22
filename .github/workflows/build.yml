@@ -1,0 +1,64 @@
+name: Build Batch Executor
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Build fat JAR
+        run: mvn clean package -DskipTests
+
+      - name: Create custom JRE with jlink
+        run: >
+          jlink --output dist/my-runtime
+                --add-modules java.base,java.desktop,java.sql,java.naming,java.xml,java.logging,java.instrument,jdk.unsupported
+                --compress=2
+                --no-header-files
+                --no-man-pages
+
+
+      - name: Copy fat jar to dist
+        run: copy target\*.jar dist\batExecutor.jar
+
+      - name: Convert run.bat.template to UTF-8 with BOM
+        shell: pwsh
+        run: |
+          $content = Get-Content run.bat.template -Raw
+          $bytes = [System.Text.Encoding]::UTF8.GetBytes($content)
+          $bom = [System.Text.Encoding]::UTF8.GetPreamble()
+          $combined = $bom + $bytes
+          [System.IO.File]::WriteAllBytes("dist/run.bat", $combined)
+
+      - name: Zip dist directory
+        run: Compress-Archive -Path dist\* -DestinationPath batExecutor.zip
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: batExecutor
+          path: batExecutor.zip
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ github.run_number }}
+          name: batExecutor v${{ github.run_number }}
+          draft: false
+          prerelease: false
+          files: batExecutor.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,5 @@
+table: M_CUSTOMER
+columns:
+    id: CUST_ID
+    name: CUST_NAME
+    age: CUST_AGE

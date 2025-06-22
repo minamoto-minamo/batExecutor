@@ -1,14 +1,15 @@
-package com.batchexecutor.enumeration.bat;
+package com.batchexecutor.enumeration;
 
-public enum BatchResult {
-    SUCCESS(0, "正常終了"),
-    ERROR(1, "異常終了"),
-    WAIT(2, "実行待機");
+public enum BatchStatus {
+    YET(0, "未実行"),
+    NOW(1, "実行中"),
+    DONE(2, "実行済み"),
+    ERROR(3, "エラー終了");
 
     private final int code;
     private final String message;
 
-    BatchResult(int code, String message) {
+    BatchStatus(int code, String message) {
         this.code = code;
         this.message = message;
     }
@@ -21,8 +22,8 @@ public enum BatchResult {
         return message;
     }
 
-    public static BatchResult fromCode(int code) {
-        for (BatchResult status : values()) {
+    public static BatchStatus fromCode(int code) {
+        for (BatchStatus status : values()) {
             if (status.code == code) {
                 return status;
             }
