@@ -1,21 +1,40 @@
 package com.batchexecutor.aspect;
 
-import org.aspectj.lang.annotation.AfterReturning;
+import com.batchexecutor.exception.NotReadyToExecuteException;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Aspect
 @Component
 public class BatchLogAspect {
 
-    @Before("execution(* org.springframework.batch.core.launch.JobLauncher.run(..))")
-    public void beforeJobExecution() {
-        System.out.println("ジョブ開始");
-    }
+    private static final Logger logger = LoggerFactory.getLogger(BatchLogAspect.class);
 
-    @AfterReturning("execution(* org.springframework.batch.core.launch.JobLauncher.run(..))")
-    public void afterJobExecution() {
-        System.out.println("ジョブ終了");
+    @Around("execution(* com.batchexecutor.batch.tasklet..*.runWithRetry(..))")
+    public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {
+        String taskletName = joinPoint.getTarget().getClass().getSimpleName();
+
+        logger.info("Tasklet START: {}", taskletName);
+        long start = System.currentTimeMillis();
+
+        try {
+            Object result = joinPoint.proceed();
+            long duration = System.currentTimeMillis() - start;
+            logger.info("Tasklet END: {} ({}ms)", taskletName, duration);
+            return result;
+        } catch (NotReadyToExecuteException e) {
+            logger.warn("Tasklet RETRY requested by: {}", taskletName);
+            throw e;
+        } catch (InterruptedException e) {
+            logger.error("Tasklet INTERRUPTED: {}", taskletName);
+            throw e;
+        } catch (Throwable t) {
+            logger.error("Tasklet ERROR: {}", taskletName, t);
+            throw t;
+        }
     }
 }

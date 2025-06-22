@@ -1,6 +1,6 @@
 package com.batchexecutor.exception;
 
-import com.batchexecutor.enumeration.bat.WaitType;
+import com.batchexecutor.enumeration.WaitType;
 
 public class NotReadyToExecuteException extends RuntimeException {
     public NotReadyToExecuteException() {
@@ -8,15 +8,7 @@ public class NotReadyToExecuteException extends RuntimeException {
     }
 
     public NotReadyToExecuteException(WaitType type) {
-        switch (type){
-            case NO_FILE -> {
-          }
-            case PRE_BATCH_NOT_COMPLETED -> {
-
-            }
-        }
-
-
+        super("実行するタイミングではありません:" + type.message());
     }
 
     public NotReadyToExecuteException(String message, Throwable cause) {

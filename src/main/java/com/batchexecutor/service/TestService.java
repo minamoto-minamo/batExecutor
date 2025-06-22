@@ -11,7 +11,7 @@ import java.sql.SQLException;
 public class TestService extends AbstractService {
 
     @Override
-    public void exec(Connection conn) throws Exception {
+    public void exec() throws Exception {
         try {
 
 
