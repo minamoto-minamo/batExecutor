@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class YamlConfigStore {
 
 	private static final Yaml YAML = new Yaml();
-	private static final String DEFAULT_PREFIX = "prop/";
+	private static final String DEFAULT_PREFIX = "config/";
 	private static final String DEFAULT_EXTENSION = ".yml";
 
 	private final Map<String, Map<String, Object>> cache = new ConcurrentHashMap<>();
