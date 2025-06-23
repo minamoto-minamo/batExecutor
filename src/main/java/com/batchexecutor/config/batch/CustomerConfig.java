@@ -60,7 +60,7 @@ public class CustomerConfig extends AbstractJobConfig implements Loggable {
 					}
 
 
-					Map<String, Object> batConfig = YamlConfigStore.getInstance().getJobConfig("job/customer");
+					Map<String, Object> batConfig = YamlConfigStore.getInstance().getJobConfig("customer");
 					String csvFilePath = (String) batConfig.get("path");
 
 					if (!Files.exists(Path.of(csvFilePath))) {
