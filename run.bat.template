@@ -1,9 +1,10 @@
 ﻿@echo off
 setlocal
 
-set JAVA_HOME=%~dp0my-runtime
-set PATH=%JAVA_HOME%\bin;%PATH%
-java -Dspring.config.location=%~dp0config\application.yml -jar batExecutor.jar
+set "JAVA_HOME=%~dp0my-runtime"
+set "PATH=%JAVA_HOME%\bin;%PATH%"
+
+java -Dspring.config.location="%~dp0config\application.yml" -jar "%~dp0batExecutor.jar"
 
 endlocal
 pause
