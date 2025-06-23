@@ -1,0 +1,1 @@
+select * from BATCH_JOB_EXECUTION_CONTEXT;

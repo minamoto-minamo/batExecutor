@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class YamlConfigStore {
 
 	private static final Yaml YAML = new Yaml();
-	private static final String DEFAULT_PREFIX = "prop/";
+	private static final String DEFAULT_PREFIX = "file:./prop/";
 	private static final String DEFAULT_EXTENSION = ".yml";
 
 	private final Map<String, Map<String, Object>> cache = new ConcurrentHashMap<>();
@@ -21,9 +21,16 @@ public class YamlConfigStore {
 		return Holder.INSTANCE;
 	}
 
-	public Map<String, Object> getConfig(String name) {
-		String path = DEFAULT_PREFIX + name + DEFAULT_EXTENSION;
-		return cache.computeIfAbsent(path, this::loadYaml);
+	public Map<String, Object> getTableConfig(String sheetName) {
+		return getConfig(DEFAULT_PREFIX + "table/" + sheetName + DEFAULT_EXTENSION);
+	}
+
+	public Map<String, Object> getJobConfig(String sheetName) {
+		return getConfig(DEFAULT_PREFIX + "job/" + sheetName + DEFAULT_EXTENSION);
+	}
+
+	private Map<String, Object> getConfig(String name) {
+		return cache.computeIfAbsent(name, this::loadYaml);
 	}
 
 	private Map<String, Object> loadYaml(String path) {

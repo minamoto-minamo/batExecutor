@@ -54,14 +54,13 @@ public class CustomerConfig extends AbstractJobConfig implements Loggable {
 			@Override
 			protected RepeatStatus runWithRetry(StepContribution contribution, ChunkContext chunkContext) throws InterruptedException {
 				try (Connection conn = ConnectionHelper.getConnection(false)) {
-					for (int i = 0; i < 10; i++) {
+					for (int i = 0; i < 5; i++) {
 						System.out.println("処理中..." + i);
 						Thread.sleep(1000);
 					}
 
-					Map<String, Object> customerConfig = YamlConfigStore.getInstance().getConfig("table/customer");
-					String TableName = (String) customerConfig.get("table");
-					Map<String, Object> batConfig = YamlConfigStore.getInstance().getConfig("bat/customer");
+
+					Map<String, Object> batConfig = YamlConfigStore.getInstance().getJobConfig("job/customer");
 					String csvFilePath = (String) batConfig.get("path");
 
 					if (!Files.exists(Path.of(csvFilePath))) {

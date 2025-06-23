@@ -1,0 +1,5 @@
+path: "C:/Users/shach/Downloads/batExecutor-6.zip"
+columns:
+  id: CUST_ID
+  name: CUST_NAME
+  age: CUST_AGE
