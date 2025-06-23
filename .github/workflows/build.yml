@@ -44,9 +44,9 @@ jobs:
       - name: Copy config/sql files to dist
         shell: cmd
         run: |
-          copy target\classes\application-prod.yml dist\application.yml
           xcopy /E /I /Y target\classes\config\* dist\config\
           xcopy /E /I /Y target\classes\sql\* dist\sql\
+          copy target\classes\application-prod.yml dist\config\application.yml
 
       - name: Zip dist directory
         run: Compress-Archive -Path dist\* -DestinationPath batExecutor.zip
