@@ -41,12 +41,12 @@ jobs:
           $combined = $bom + $bytes
           [System.IO.File]::WriteAllBytes("dist/run.bat", $combined)
 
-      - name: Copy static files
-        run:
+      - name: Copy config/sql files to dist
+        shell: cmd
+        run: |
           copy target\classes\application-prod.yml dist\application.yml
           xcopy /E /I /Y target\classes\config\* dist\config\
           xcopy /E /I /Y target\classes\sql\* dist\sql\
-
 
       - name: Zip dist directory
         run: Compress-Archive -Path dist\* -DestinationPath batExecutor.zip
