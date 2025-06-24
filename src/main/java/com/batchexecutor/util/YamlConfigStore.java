@@ -6,6 +6,11 @@ import java.io.InputStream;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+
+/**
+ * Yamlファイルからデータを取り出すときに使用する。
+ * 一度読んだYamlファイルはキャッシュの中に格納する。
+ */
 public class YamlConfigStore {
 
 	private static final Yaml YAML = new Yaml();

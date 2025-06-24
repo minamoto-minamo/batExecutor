@@ -1,5 +1,6 @@
-table: M_CUSTOMER
-columns:
-  id: CUST_ID
-  name: CUST_NAME
-  age: CUST_AGE
+customer:
+  table-name: customer
+  column:
+    name: CustomerName
+    phone: Phone
+    e-mail: Email

@@ -1,10 +1,10 @@
-package com.batchexecutor.service;
+package com.batchexecutor.service.base;
 
 import com.batchexecutor.enumeration.BatchResult;
 import com.batchexecutor.exception.NotReadyToExecuteException;
 import com.batchexecutor.logging.Loggable;
 
-abstract class AbstractService implements Loggable, Service {
+public abstract class AbstractService implements Loggable, Service {
 
 	public BatchResult start() {
 		try {

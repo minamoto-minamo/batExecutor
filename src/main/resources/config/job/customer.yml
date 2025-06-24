@@ -1,4 +1,6 @@
-path: "C:/Users/shach/Downloads/batExecutor-6.zip"
+path:
+  sql:
+    test: ./src/main/resources/sql/customer/test.sql
 columns:
   id: CUST_ID
   name: CUST_NAME
