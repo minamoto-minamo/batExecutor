@@ -32,17 +32,19 @@ jobs:
       - name: Copy fat jar to dist
         run: copy target\*.jar dist\batExecutor.jar
 
-      - name: Convert run.bat.template to Shift_JIS
+      - name: Convert run.bat.template to UTF-8 with BOM
         shell: pwsh
         run: |
           $content = Get-Content run.bat.template -Raw
-          $bytes = [System.Text.Encoding]::GetEncoding("shift_jis").GetBytes($content)
-          [System.IO.File]::WriteAllBytes("dist/run.bat", $bytes)
+          $bytes = [System.Text.Encoding]::UTF8.GetBytes($content)
+          $bom = [System.Text.Encoding]::UTF8.GetPreamble()
+          $combined = $bom + $bytes
+          [System.IO.File]::WriteAllBytes("dist/run.bat", $combined)
 
       - name: Copy config/sql files to dist
         shell: cmd
         run: |
-          copy target\classes\application-prod.yml dist\config\application.yml
+          xcopy /E /I /Y target\classes\application-prod.yml dist\config\application.yml
 
       - name: Zip dist directory
         run: Compress-Archive -Path dist\* -DestinationPath batExecutor.zip
