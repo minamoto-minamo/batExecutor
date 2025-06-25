@@ -1,6 +1,8 @@
 path:
   sql:
     test: ./src/main/resources/sql/customer/test.sql
+  file:
+    csv: C:/Users/shach/Downloads/test.txt
 columns:
   id: CUST_ID
   name: CUST_NAME
