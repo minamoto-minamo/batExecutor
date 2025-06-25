@@ -42,7 +42,7 @@ jobs:
       - name: Copy config/sql files to dist
         shell: cmd
         run: |
-          mkdir dist/config
+          mkdir dist\config
           copy target\classes\application-prod.yml dist\config\application.yml
 
       - name: Zip dist directory
