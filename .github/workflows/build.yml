@@ -32,7 +32,7 @@ jobs:
       - name: Copy fat jar to dist
         run: copy target\*.jar dist\batExecutor.jar
 
-      - name: Convert run.bat.template to UTF-8 with BOM
+      - name: Convert run.bat.template to Shift_JIS
         shell: pwsh
         run: |
           $content = Get-Content run.bat.template -Raw
