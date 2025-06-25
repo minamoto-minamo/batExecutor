@@ -3,12 +3,12 @@ package com.batchexecutor.config.batch;
 import com.batchexecutor.config.base.AbstractJobConfig;
 import com.batchexecutor.config.base.RetryableTasklet;
 import com.batchexecutor.enumeration.BatchResult;
-import com.batchexecutor.enumeration.BatchStatus;
 import com.batchexecutor.exception.NotReadyToExecuteException;
 import com.batchexecutor.logging.Loggable;
 import com.batchexecutor.service.TestService;
 import com.batchexecutor.util.ConnectionHelper;
 import com.batchexecutor.util.YamlConfigStore;
+import com.batchexecutor.util.YamlParser;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepContribution;
@@ -61,7 +61,7 @@ public class CustomerConfig extends AbstractJobConfig implements Loggable {
 
 
 					Map<String, Object> batConfig = YamlConfigStore.getInstance().getJobConfig("customer");
-					String csvFilePath = (String) batConfig.get("path");
+					String csvFilePath = (String) YamlParser.resolveKey(batConfig,"path.file.csv");
 
 					if (!Files.exists(Path.of(csvFilePath))) {
 						throw new NotReadyToExecuteException();
@@ -89,10 +89,7 @@ public class CustomerConfig extends AbstractJobConfig implements Loggable {
 			@Override
 			protected RepeatStatus runWithRetry(StepContribution contribution, ChunkContext chunkContext) {
 				BatchResult res = testService.start();
-
-				if(res == BatchResult.SUCCESS){
-					System.out.println(BatchStatus.DONE.message());
-				}
+				System.out.println(res.message());
 
 				return RepeatStatus.FINISHED;
 			}

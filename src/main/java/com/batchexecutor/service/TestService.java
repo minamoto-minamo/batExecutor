@@ -19,10 +19,10 @@ public class TestService extends AbstractService {
 			Map<String, Object> customerConfig = YamlConfigStore.getInstance().getTableConfig("customer");
 			Map<String, Object> jobConfig = YamlConfigStore.getInstance().getJobConfig("customer");
 
-			String sqlPath = (String) YamlParser.resolveKey(jobConfig,"path.sql.test");
+
 			String nameCol = (String) YamlParser.resolveKey(customerConfig,"customer.column.name");
 
-			String sql = SqlReader.readSql(sqlPath);
+			String sql = SqlReader.readSql("customer/test");
 			sql = StringResolver.of(sql)
 					.replaceWith(customerConfig)
 					.toString();

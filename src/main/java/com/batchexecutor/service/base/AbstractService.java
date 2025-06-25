@@ -8,7 +8,6 @@ public abstract class AbstractService implements Loggable, Service {
 
 	public BatchResult start() {
 		try {
-
 			exec();
 			return BatchResult.SUCCESS;
 		} catch (NotReadyToExecuteException e) {
